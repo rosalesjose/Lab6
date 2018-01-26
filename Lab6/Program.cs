@@ -10,23 +10,37 @@ namespace Lab6
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Pig Latin Translator");
-
-            string OriginalString = ReadUserInput("\nPlease enter a word:");
-            char [] LowerCaseStringArray = OriginalString.ToLower().ToCharArray();
-
-            string LowerCaseString = OriginalString.ToLower();
-
-            if ("aeiou".Contains(LowerCaseString[0]))
+            bool RunApplication = true;
+            while (RunApplication)
             {
-                Console.WriteLine("\nTranslation: {0}way", LowerCaseString);
-            }
-            else
-            {
-                string PigLatinConsonant = ConsonantTranslation(LowerCaseString);
-               
-                Console.WriteLine("\nTranslation: {0}", PigLatinConsonant);
+                Console.WriteLine("Pig Latin Translator");
 
+                string OriginalString = ReadUserInput("\nPlease enter a word:");
+                char[] LowerCaseStringArray = OriginalString.ToLower().ToCharArray();
+
+                string LowerCaseString = OriginalString.ToLower();
+
+                if ("aeiou".Contains(LowerCaseString[0]))
+                {
+                    Console.WriteLine("\nTranslation: {0}way", LowerCaseString);
+                }
+                else
+                {
+                    string PigLatinConsonant = ConsonantTranslation(LowerCaseString);
+                    Console.WriteLine("\nTranslation: {0}", PigLatinConsonant);
+                }
+                Console.WriteLine("\nWould you like to translate another word (Y/N)?");
+
+                char UserDecision = char.Parse(Console.ReadLine());                
+
+                if (UserDecision == 'y' || UserDecision == 'Y')
+                {
+                    RunApplication = true;
+                }
+                else
+                {
+                    RunApplication = false;
+                }
             }
         }
         public static string ReadUserInput (string UserPrompt)
@@ -49,5 +63,7 @@ namespace Lab6
 
             return TranslatedWord;
         }
+
+        
     }
 }
