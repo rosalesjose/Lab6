@@ -42,16 +42,26 @@ namespace Lab6
                         Console.Write(PigLatinConsonant + " ");
                     }
                 }
-                //Throws error if word with only consonants i.e.Gypsy, myth
-                //Throws error if multiple spaces between words
-                //Throws error if only one character is entered 
-                //Throws error if two of the same character is entered
-                //Throws error if anything but y/n entered for repeat program
+                //Throws error if word with only consonants i.e.Gypsy, myth, fly, spy, fry,                 
+                //Throws error if only one type of letter is entered                                
                 //Won't translate words that end with punctuation
+                //Input won't accept if there are spaces after last word entered
 
-                Console.WriteLine("\nWould you like to continue translating (Y/N)?");
-
-                bool UserDecision = Decision(char.Parse(Console.ReadLine()));
+                Console.WriteLine("\nEnter the 'Y' key to translate another word. \nOr enter in any other key to quit.");
+                bool MakeDecision = true;
+                while (MakeDecision)
+                {
+                    try
+                    {
+                        bool UserDecision = Decision(char.Parse(Console.ReadLine()));
+                        MakeDecision = false;
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Enter the 'Y' key if you want to run the program again.");
+                        Console.WriteLine("Enter a different key if you want to exit the program.");
+                    }
+                }
             }
         }
         public static string ReadUserInput(string UserPrompt)
@@ -98,10 +108,10 @@ namespace Lab6
                 Console.Clear();
                 return RunApplication = true;
             }
-            else
+            else 
             {
                 return RunApplication = false;
-            }
+            }            
         }
     }
 }
