@@ -17,18 +17,18 @@ namespace Lab6
             {
                 Console.WriteLine("Pig Latin Translator");
 
-                string OriginalString = ReadUserInput("\nPlease enter a word:");
+                string OriginalString = ReadUserInput("\nPlease enter a phrase:");
 
-                string[] SeparateWords = OriginalString.ToLower().Split(' '); 
+                string[] SeparateWords = OriginalString.Split(' '); 
 
-                var VowelRegex = new Regex (@"^[aeiou]");
+                var VowelRegex = new Regex (@"^(?i)[aeiou]");
                 Console.Write("\nTranslation: ");
 
                 for (int i = 0; i < SeparateWords.Length; i++)
                 {
                     if (VowelRegex.IsMatch(SeparateWords[i])) 
                     {
-                        Console.Write("{0}way ", SeparateWords[i]);
+                        Console.Write("{0}way ", SeparateWords[i].Trim());
                     }
                     else
                     {
@@ -40,7 +40,7 @@ namespace Lab6
                 //Throws error if multiple spaces between words
                 //Throws error if anything but letters are entered
 
-                Console.WriteLine("\nWould you like to translate another word (Y/N)?");
+                Console.WriteLine("\nWould you like to continue translating (Y/N)?");
 
                 bool UserDecision = Decision(char.Parse(Console.ReadLine()));
             }
@@ -73,16 +73,25 @@ namespace Lab6
             //}
         }
 
-        public static string ConsonantTranslation(string LowerCaseString)
+        public static string ConsonantTranslation(string ConsonantWord)
         {
             char[] VowelArray = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
 
-            int VowelIndex = LowerCaseString.IndexOfAny(VowelArray);
+            int VowelIndex = ConsonantWord.IndexOfAny(VowelArray);
 
-            string BeginningConsonants = LowerCaseString.Substring(0, VowelIndex);
-            string RestOfWord = LowerCaseString.Substring(VowelIndex);
+            string BeginningConsonants = ConsonantWord.Trim().Substring(0, VowelIndex);
+            string RestOfWord = ConsonantWord.Trim().Substring(VowelIndex);
 
-            string TranslatedWord = RestOfWord + BeginningConsonants + "ay";
+            var CapRegex = new Regex(@"^[A-Z]");
+
+            if (CapRegex.IsMatch(BeginningConsonants))
+            {
+                string CapLetter = RestOfWord.First().ToString().ToUpper();
+                string CapString = CapLetter + RestOfWord.Substring(1) + BeginningConsonants.ToLower() + "ay";
+                return CapString;                
+            }
+
+            string TranslatedWord = RestOfWord + BeginningConsonants.ToLower() + "ay";
 
             return TranslatedWord;
         }
