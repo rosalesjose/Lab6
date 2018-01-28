@@ -23,6 +23,7 @@ namespace Lab6
 
                 var VowelRegex = new Regex(@"^(?i)[aeiou]");
                 var LettersRegex = new Regex(@"^[A-Za-z']+$");
+                var NoVowelsRegex = new Regex(@"^[^aeiou]+$");
 
                 Console.Write("\nTranslation: ");
 
@@ -33,19 +34,20 @@ namespace Lab6
                         Console.Write(SeparateWords[i].Trim() + " ");
                     }
                     else if (VowelRegex.IsMatch(SeparateWords[i]))
-                    {   
+                    {
                         Console.Write("{0}way ", SeparateWords[i].Trim());
                     }
-                    else 
+                    else if (NoVowelsRegex.IsMatch(SeparateWords[i]))
+                    {
+                        Console.WriteLine("{0}way ", SeparateWords[i].Trim());
+                    }
+                    else
                     {
                         string PigLatinConsonant = ConsonantTranslation(SeparateWords[i]);
                         Console.Write(PigLatinConsonant + " ");
                     }
-                }
-                //Throws error if word with only consonants i.e.Gypsy, myth, fly, spy, fry,                 
-                //Throws error if only one type of letter is entered                                
-                //Won't translate words that end with punctuation
-                //Input won't accept if there are spaces after last word entered
+                }                                            
+                //Won't translate words that end with punctuation             
 
                 Console.WriteLine("\nEnter the 'Y' key to translate another word. \nOr enter in any other key to quit.");
                 bool MakeDecision = true;
@@ -67,7 +69,7 @@ namespace Lab6
         public static string ReadUserInput(string UserPrompt)
         {
             Console.WriteLine(UserPrompt);
-            string OriginalString = Console.ReadLine();
+            string OriginalString = Console.ReadLine().Trim();
             var InputRegex = new Regex(@"[\S]+$");
             if (InputRegex.IsMatch(OriginalString))
             {
@@ -75,7 +77,7 @@ namespace Lab6
             }
             Console.Clear();
             Console.WriteLine("Pig Latin Translator");
-            return ReadUserInput(UserPrompt);        
+            return ReadUserInput(UserPrompt);
         }
 
         public static string ConsonantTranslation(string ConsonantWord)
@@ -108,10 +110,10 @@ namespace Lab6
                 Console.Clear();
                 return RunApplication = true;
             }
-            else 
+            else
             {
                 return RunApplication = false;
-            }            
+            }
         }
     }
 }
