@@ -22,7 +22,7 @@ namespace Lab6
                 string[] SeparateWords = OriginalString.Split(' ');
 
                 var VowelRegex = new Regex(@"^(?i)[aeiou]");
-                var LettersRegex = new Regex(@"^[A-Za-z]$");
+                var LettersRegex = new Regex(@"^[A-Za-z]+$");
 
                 Console.Write("\nTranslation: ");
 
@@ -30,10 +30,10 @@ namespace Lab6
                 {
                     if (!LettersRegex.IsMatch(SeparateWords[i]))
                     {
-                        Console.Write(SeparateWords[i] + " ");
+                        Console.Write(SeparateWords[i].Trim() + " ");
                     }
                     else if (VowelRegex.IsMatch(SeparateWords[i]))
-                    {
+                    {   
                         Console.Write("{0}way ", SeparateWords[i].Trim());
                     }
                     else 
