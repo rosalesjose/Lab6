@@ -3,51 +3,74 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Lab6
 {
     class Program
     {
+        static bool RunApplication = true;
+
         static void Main(string[] args)
         {
-            bool RunApplication = true;
             while (RunApplication)
             {
                 Console.WriteLine("Pig Latin Translator");
 
                 string OriginalString = ReadUserInput("\nPlease enter a word:");
-                char[] LowerCaseStringArray = OriginalString.ToLower().ToCharArray();
 
-                string LowerCaseString = OriginalString.ToLower();
+                string[] SeparateWords = OriginalString.ToLower().Split(' '); 
 
-                if ("aeiou".Contains(LowerCaseString[0]))
+                var VowelRegex = new Regex (@"^[aeiou]");
+                Console.Write("\nTranslation: ");
+
+                for (int i = 0; i < SeparateWords.Length; i++)
                 {
-                    Console.WriteLine("\nTranslation: {0}way", LowerCaseString);
+                    if (VowelRegex.IsMatch(SeparateWords[i])) 
+                    {
+                        Console.Write("{0}way ", SeparateWords[i]);
+                    }
+                    else
+                    {
+                        string PigLatinConsonant = ConsonantTranslation(SeparateWords[i]);
+                        Console.Write(PigLatinConsonant + " ");
+                    }
                 }
-                else
-                {
-                    string PigLatinConsonant = ConsonantTranslation(LowerCaseString);
-                    Console.WriteLine("\nTranslation: {0}", PigLatinConsonant);
-                }
+                //Throws error if word with only consonants i.e.Gypsy, myth
+                //Throws error if multiple spaces between words
+                //Throws error if anything but letters are entered
+
                 Console.WriteLine("\nWould you like to translate another word (Y/N)?");
 
-                char UserDecision = char.Parse(Console.ReadLine());                
-
-                if (UserDecision == 'y' || UserDecision == 'Y')
-                {
-                    RunApplication = true;
-                }
-                else
-                {
-                    RunApplication = false;
-                }
+                bool UserDecision = Decision(char.Parse(Console.ReadLine()));
             }
         }
-        public static string ReadUserInput (string UserPrompt)
+        public static string ReadUserInput(string UserPrompt)
         {
             Console.WriteLine(UserPrompt);
             string OriginalString = Console.ReadLine();
-            return OriginalString;
+            Match TextInput = Regex.Match(OriginalString, @"^[A-Za-z]$");
+            if (TextInput.Success)
+            {
+                return ReadUserInput(UserPrompt);
+            }
+            else
+            {
+                return OriginalString;
+            }
+
+            //else if (OriginalString)
+            //{
+
+            //}
+            //else if (OriginalString)
+            //{
+
+            //}
+            //else
+            //{
+            //    return OriginalString;
+            //}
         }
 
         public static string ConsonantTranslation(string LowerCaseString)
@@ -64,6 +87,17 @@ namespace Lab6
             return TranslatedWord;
         }
 
-        
+        public static bool Decision(char UserDecision)
+        {
+            if (UserDecision == 'y' || UserDecision == 'Y')
+            {
+                Console.Clear();
+                return RunApplication = true;
+            }
+            else
+            {
+                return RunApplication = false;
+            }
+        }
     }
 }
