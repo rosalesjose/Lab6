@@ -19,18 +19,24 @@ namespace Lab6
 
                 string OriginalString = ReadUserInput("\nPlease enter a phrase:");
 
-                string[] SeparateWords = OriginalString.Split(' '); 
+                string[] SeparateWords = OriginalString.Split(' ');
 
-                var VowelRegex = new Regex (@"^(?i)[aeiou]");
+                var VowelRegex = new Regex(@"^(?i)[aeiou]");
+                var LettersRegex = new Regex(@"^[A-Za-z]$");
+
                 Console.Write("\nTranslation: ");
 
                 for (int i = 0; i < SeparateWords.Length; i++)
                 {
-                    if (VowelRegex.IsMatch(SeparateWords[i])) 
+                    if (!LettersRegex.IsMatch(SeparateWords[i]))
+                    {
+                        Console.Write(SeparateWords[i] + " ");
+                    }
+                    else if (VowelRegex.IsMatch(SeparateWords[i]))
                     {
                         Console.Write("{0}way ", SeparateWords[i].Trim());
                     }
-                    else
+                    else 
                     {
                         string PigLatinConsonant = ConsonantTranslation(SeparateWords[i]);
                         Console.Write(PigLatinConsonant + " ");
@@ -88,7 +94,7 @@ namespace Lab6
             {
                 string CapLetter = RestOfWord.First().ToString().ToUpper();
                 string CapString = CapLetter + RestOfWord.Substring(1) + BeginningConsonants.ToLower() + "ay";
-                return CapString;                
+                return CapString;
             }
 
             string TranslatedWord = RestOfWord + BeginningConsonants.ToLower() + "ay";
