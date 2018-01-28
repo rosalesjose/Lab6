@@ -22,7 +22,7 @@ namespace Lab6
                 string[] SeparateWords = OriginalString.Split(' ');
 
                 var VowelRegex = new Regex(@"^(?i)[aeiou]");
-                var LettersRegex = new Regex(@"^[A-Za-z]+$");
+                var LettersRegex = new Regex(@"^[A-Za-z']+$");
 
                 Console.Write("\nTranslation: ");
 
@@ -44,7 +44,10 @@ namespace Lab6
                 }
                 //Throws error if word with only consonants i.e.Gypsy, myth
                 //Throws error if multiple spaces between words
-                //Throws error if anything but letters are entered
+                //Throws error if only one character is entered 
+                //Throws error if two of the same character is entered
+                //Throws error if anything but y/n entered for repeat program
+                //Won't translate words that end with punctuation
 
                 Console.WriteLine("\nWould you like to continue translating (Y/N)?");
 
@@ -55,28 +58,14 @@ namespace Lab6
         {
             Console.WriteLine(UserPrompt);
             string OriginalString = Console.ReadLine();
-            Match TextInput = Regex.Match(OriginalString, @"^[A-Za-z]$");
-            if (TextInput.Success)
-            {
-                return ReadUserInput(UserPrompt);
-            }
-            else
+            var InputRegex = new Regex(@"[\S]+$");
+            if (InputRegex.IsMatch(OriginalString))
             {
                 return OriginalString;
             }
-
-            //else if (OriginalString)
-            //{
-
-            //}
-            //else if (OriginalString)
-            //{
-
-            //}
-            //else
-            //{
-            //    return OriginalString;
-            //}
+            Console.Clear();
+            Console.WriteLine("Pig Latin Translator");
+            return ReadUserInput(UserPrompt);        
         }
 
         public static string ConsonantTranslation(string ConsonantWord)
@@ -93,7 +82,7 @@ namespace Lab6
             if (CapRegex.IsMatch(BeginningConsonants))
             {
                 string CapLetter = RestOfWord.First().ToString().ToUpper();
-                string CapString = CapLetter + RestOfWord.Substring(1) + BeginningConsonants.ToLower() + "ay";
+                string CapString = CapLetter + RestOfWord.Substring(1).ToLower() + BeginningConsonants.ToLower() + "ay";
                 return CapString;
             }
 
